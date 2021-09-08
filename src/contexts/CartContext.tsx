@@ -10,7 +10,6 @@ interface CartItem {
 //***************************************
 
 interface ContextValue {
-    // productsInCart: number[];
     cartItems: CartItem[];
     addToCart: (product: ProductData) => void;
     removeFromCart: (product: ProductData) => void;
