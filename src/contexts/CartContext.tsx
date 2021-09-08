@@ -15,6 +15,7 @@ interface ContextValue {
     removeFromCart: (id: number) => void;
     // incrementNumber: (id: number) => void;
     // decreasementNumber: (id: number) => void;
+    // discardCart: (??????) => void;
 }
 
 export const CartContext = createContext<ContextValue>({
@@ -35,9 +36,8 @@ const CartProvider: FC = (props) => {
         }
     }
 
-    // delete all products with same id, (trash can icon for one product in cart)
+    // Delete all products with same id, (think: trash can icon for one product in cart)
     const removeFromCart = (id: number) => {
-        // Tar bort alla produkter med id fr array, dvs paperskorg-knappen
         const updatedProductsList = productsInCart.filter(productId => productId !== id);
         setproductsInCart(updatedProductsList);
     }
@@ -52,6 +52,11 @@ const CartProvider: FC = (props) => {
     // const decreasementNumber = (id: number) => {
     //     // TODO: Minska antal, om mindre/lika med 1 anropa removeFromCart
 
+    // }
+
+    // // Discard all products from Cart
+    // const discardCart = (???????) => {
+    //     // TODO: Ta bort alla varor från kundvagnen oavsett antal
     // }
 
     return (
