@@ -1,24 +1,16 @@
-import { CSSProperties, useContext } from "react";
+import { CSSProperties } from "react";
 import { products } from "../data";
-import { CartContext } from '../contexts/CartContext'
+import CartLayout from './CartLayout';
 
 const Layout = () => {
-    const {productsInCart, addToCart} = useContext(CartContext);
-
-    console.log(productsInCart);
 
     return (
         <div style={rootStyle}>
-            {products.map( product => (
-                <img 
-                    style={{opacity: productsInCart.includes(product.id) ? 1 : 0.5}}
-                    key={product.id} 
-                    src={product.url} 
-                    alt={product.name}
-                    // onClick={() => productsInCart.includes(product.id) ? addToCart(product.id) : removeFromCart(product.id)} 
-                    onClick={() => addToCart(product.id)} 
-                />
-            ))}
+            {/* Gör på Home Page */}
+            {/* {products.map(product => <ProductCard product={product}> )} */}
+
+            {/* Göra i Menu och på Checkout Page */}
+            <CartLayout />
         </div>
     )
 }
@@ -29,6 +21,10 @@ const rootStyle: CSSProperties = {
 }
 
 export default Layout;
+
+//Layout ansvarar för mappningen, vilka produkter som ska visas
+// "produkten" hur den renderas och ser ut lägger vi i Cart
+
 
 // onClick={() => setAddToCart([...addToCart, product.id])} 
 // tom () för att vi bryr oss bara om ATT vi klicka, inte ngt annat med det eventet

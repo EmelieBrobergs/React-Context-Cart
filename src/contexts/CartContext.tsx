@@ -1,45 +1,54 @@
 import { createContext, FC, useState } from "react";
-// import { ProductData } from "../data";
+import { ProductData, products } from "../data";
 
 //***************************************
-// interface ProductInCart {
-//     productId: number;
-//     amount: number;
-// }
+interface CartItem {
+    product: ProductData;
+    amount: number;
+}
 
 //***************************************
 
 interface ContextValue {
-    productsInCart: number[];
-    addToCart: (id: number) => void;
-    removeFromCart: (id: number) => void;
-    // incrementNumber: (id: number) => void;
-    // decreasementNumber: (id: number) => void;
-    // discardCart: (??????) => void;
+    // productsInCart: number[];
+    cartItems: CartItem[];
+    addToCart: (product: ProductData) => void;
+    removeFromCart: (product: ProductData) => void;
+    // incrementNumber: (product: ProductData) => void;
+    // decreasementNumber: (product: ProductData) => void;
+    // discardCart: () => void;
 }
 
 export const CartContext = createContext<ContextValue>({
-    productsInCart: [],
+    cartItems: [],
     addToCart: () => {},
     removeFromCart: () => {}
 });
 
 const CartProvider: FC = (props) => {
-    const [productsInCart, setproductsInCart] = useState<number[]>([]);
+    const [cartItems, setCartItems] = useState<CartItem[]>([{
+        //Fake data för utv
+        product: products[2],
+        amount: 25,
+    }, {
+        product: products[1],
+        amount: 4,
+    }]);
 
     // Check if product exist in cart, else it will be added
-    const addToCart = (id: number) => {
-        if (productsInCart.includes(id)) {
+    const addToCart = (product: ProductData) => {
+        if (cartItems.some(cartItem => cartItem.product.id === product.id)) {
             //Anropa öka antal
         } else {
-            setproductsInCart([...productsInCart, id]);
+            const cartItem: CartItem = { product, amount: 1 };
+            setCartItems([...cartItems, cartItem]);
         }
     }
 
     // Delete all products with same id, (think: trash can icon for one product in cart)
-    const removeFromCart = (id: number) => {
-        const updatedProductsList = productsInCart.filter(productId => productId !== id);
-        setproductsInCart(updatedProductsList);
+    const removeFromCart = (product: ProductData) => {
+        const updatedProductsList = cartItems.filter(cartItem => cartItem.product.id !== product.id);
+        setCartItems(updatedProductsList);
     }
 
     // // Increace parameter amount by 1
@@ -55,17 +64,19 @@ const CartProvider: FC = (props) => {
     // }
 
     // // Discard all products from Cart
-    // const discardCart = (???????) => {
+    // const discardCart = () => {
     //     // TODO: Ta bort alla varor från kundvagnen oavsett antal
+            // setCartItems([]);
     // }
 
     return (
         <CartContext.Provider value={{
-            productsInCart,
+            cartItems: cartItems,
             addToCart,
             removeFromCart
             // incrementNumber,
-            // decreasementNumber
+            // decreasementNumber,
+            // discardCart
         }}>
             {props.children}
         </CartContext.Provider>
