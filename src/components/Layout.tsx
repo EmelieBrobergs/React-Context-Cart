@@ -1,20 +1,22 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useContext } from "react";
 import { products } from "../data";
+import { CartContext } from '../contexts/CartContext'
 
-function Layout() {
-    //Vi vill spara en array av nummer och måste typa upp det för TS annars blir det "never" --> useState([])
-    //Väldigt få tillfällen man vill använda never, kanske om man testar ens fil. Visa att man glömt ett case.
-    const [addToCart, setAddToCart] = useState<number[]>([]);
+const Layout = () => {
+    const {productsInCart, addToCart} = useContext(CartContext);
+
+    console.log(productsInCart);
 
     return (
         <div style={rootStyle}>
             {products.map( product => (
                 <img 
-                    style={{opacity: addToCart.includes(product.id) ? 1 : 0.5}}
+                    style={{opacity: productsInCart.includes(product.id) ? 1 : 0.5}}
                     key={product.id} 
                     src={product.url} 
                     alt={product.name}
-                    onClick={() => setAddToCart([...addToCart, product.id])} 
+                    // onClick={() => productsInCart.includes(product.id) ? addToCart(product.id) : removeFromCart(product.id)} 
+                    onClick={() => addToCart(product.id)} 
                 />
             ))}
         </div>

@@ -1,9 +1,12 @@
 import React from 'react';
+import CartProvider from '../contexts/CartContext';
 import Layout from './Layout';
 
 function App() {
   return (
-    <Layout/>
+    <CartProvider>
+      <Layout/>
+    </CartProvider>
   );
 }
 
